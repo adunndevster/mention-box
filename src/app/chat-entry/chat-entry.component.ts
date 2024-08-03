@@ -42,23 +42,25 @@ export class ChatEntryComponent implements AfterViewInit {
   }
 
   onKeyPress = async (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      const chat: Chat = {
-        id: generateGUID(),
-        user: localUser,
-        htmlText: this.entryField.nativeElement.innerHTML,
-        timeStamp: new Date(),
-      };
-      this.entryField.nativeElement.innerHTML = '';
-      try
-      {
-        await this.#chatService.createChat(chat);
-        await this.#chatService.refreshChats();
-      } catch(error)
-      {
-        console.error(error);
-      }
+      await this.saveChat();
+    }
+  }
+
+  private async saveChat() {
+    const chat: Chat = {
+      id: generateGUID(),
+      user: localUser,
+      htmlText: this.entryField.nativeElement.innerHTML,
+      timeStamp: new Date(),
+    };
+    this.entryField.nativeElement.innerHTML = '';
+    try {
+      await this.#chatService.createChat(chat);
+      await this.#chatService.refreshChats();
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -77,7 +79,14 @@ export class ChatEntryComponent implements AfterViewInit {
     }
   }
 
+  onEntryClick = async() =>
+  {
+    this.showMentionBox = false;
+    await this.saveChat();
+  }
+
   onSelectHandle(value: string) {
+    
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
@@ -86,7 +95,7 @@ export class ChatEntryComponent implements AfterViewInit {
       const spanElement = document.createElement('span');
       spanElement.textContent = `@${value}`;
 
-      const spaceNode = document.createTextNode(`${String.fromCharCode(160)}`);
+      const spaceNode = document.createTextNode(`${String.fromCharCode(0)}`);
 
       // Delete the existing '@' symbol
       range.setStart(range.startContainer, this.currentCursorPos - 1);
