@@ -1,3 +1,5 @@
-<div appSetPosition class="box">
-    {{handles$ | async | json}}
+<div (keydown)="onKeyDown($event)" appSetPosition class="box">
+    @for(item of handles$ | async; track item.handle){
+        <button [value]="item.handle" (click)="onSelect($event)">{{item.handle}}</button>
+    }
 </div>

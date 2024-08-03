@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { HandlesService } from '../services/handles.service';
 import { Observable } from 'rxjs';
 import { Handle } from '../../models/types';
@@ -13,11 +13,28 @@ import { SetPositionDirective } from '../directives/set-position.directive';
   styleUrl: './mention-box.component.sass'
 })
 export class MentionBoxComponent {
+  @Output() onClose = new EventEmitter();
+  @Output() selectHandle = new EventEmitter();
+
   #handlesService = inject(HandlesService);
   handles$: Observable<Handle[]> | undefined;
 
   constructor()
   {
     this.handles$ = this.#handlesService.getHandles();
+  }
+
+  onKeyDown($event:KeyboardEvent)
+  {
+    if($event.key === 'Escape')
+    {
+      this.onClose.emit();
+    }
+  }
+
+  onSelect($event:MouseEvent)
+  {
+    const value = ($event.target as HTMLButtonElement).value;
+    this.selectHandle.emit(value);
   }
 }
