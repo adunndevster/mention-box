@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Output, signal, ViewChild } from '@angular/core';
 import { HandlesService } from '../services/handles.service';
 import { Observable } from 'rxjs';
 import { Handle } from '../../models/types';
@@ -12,9 +12,11 @@ import { SetPositionDirective } from '../directives/set-position.directive';
   templateUrl: './mention-box.component.html',
   styleUrl: './mention-box.component.sass'
 })
-export class MentionBoxComponent {
+export class MentionBoxComponent implements AfterViewInit {
   @Output() onClose = new EventEmitter();
   @Output() selectHandle = new EventEmitter();
+  @ViewChild("searchBox") searchBox!: ElementRef;
+  searchValue = '';
 
   #handlesService = inject(HandlesService);
   handles$: Observable<Handle[]> | undefined;
@@ -22,6 +24,14 @@ export class MentionBoxComponent {
   constructor()
   {
     this.handles$ = this.#handlesService.getHandles();
+  }
+
+  ngAfterViewInit(): void {
+    if(this.searchBox?.nativeElement)
+    {
+      console.log(this.searchBox?.nativeElement)
+      this.searchBox?.nativeElement.focus();
+    }
   }
 
   onKeyDown($event:KeyboardEvent)

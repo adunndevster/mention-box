@@ -27,6 +27,7 @@ export class ChatEntryComponent implements AfterViewInit {
   #chatService = inject(ChatsService);
   chatValue = '';
   currentCursorPos = 1;
+  private savedRange: Range | null = null;
   showMentionBox = false;
 
   constructor() {}
@@ -46,7 +47,7 @@ export class ChatEntryComponent implements AfterViewInit {
       event.preventDefault();
       await this.saveChat();
     }
-  }
+  };
 
   private async saveChat() {
     const chat: Chat = {
@@ -67,6 +68,10 @@ export class ChatEntryComponent implements AfterViewInit {
   onKeyUp(event: KeyboardEvent) {
     if (event.key === '@') {
       this.showMentionBox = true;
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        this.savedRange = selection.getRangeAt(0).cloneRange();
+      }
     }
     this.updateCursorPosition();
   }
@@ -79,41 +84,47 @@ export class ChatEntryComponent implements AfterViewInit {
     }
   }
 
-  onEntryClick = async() =>
-  {
+  onEntryClick = async () => {
     this.showMentionBox = false;
     await this.saveChat();
-  }
+  };
 
   onSelectHandle(value: string) {
-    
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
+    this.entryField.nativeElement.focus();
+
+    if (this.savedRange) {
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(this.savedRange);
+
+      const range = this.savedRange;
 
       // Create a span element to wrap the @handle
       const spanElement = document.createElement('span');
       spanElement.textContent = `@${value}`;
 
-      const spaceNode = document.createTextNode(`${String.fromCharCode(0)}`);
+      const nullNode = document.createTextNode(`${String.fromCharCode(0)}`);
 
       // Delete the existing '@' symbol
-      range.setStart(range.startContainer, this.currentCursorPos - 1);
-      range.setEnd(range.startContainer, this.currentCursorPos);
+      range.setStart(range.startContainer, range.startOffset - 1);
+      range.setEnd(range.endContainer, range.endOffset);
       range.deleteContents();
 
       // Insert the new nodes
-      range.insertNode(spaceNode);
+      range.insertNode(nullNode);
       range.insertNode(spanElement);
 
       // Move the cursor to the end of the inserted text
-      range.setStartAfter(spaceNode);
-      range.setEndAfter(spaceNode);
-      selection.removeAllRanges();
-      selection.addRange(range);
+      range.setStartAfter(nullNode);
+      range.setEndAfter(nullNode);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
 
       // Update the chatValue
       this.chatValue = this.entryField.nativeElement.innerHTML;
+
+      // Clear the saved range
+      this.savedRange = null;
     }
 
     this.showMentionBox = false;

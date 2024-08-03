@@ -1,4 +1,5 @@
 <div (keydown)="onKeyDown($event)" appSetPosition class="box">
+    <input #searchBox [(value)]="searchValue">
     @for(item of handles$ | async; track item.handle){
         <button [value]="item.handle" (click)="onSelect($event)">{{item.handle}}</button>
     }
