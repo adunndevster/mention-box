@@ -1,0 +1,33 @@
+@import "./variables.scss";
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: $color-blue-6;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: $color-blue-6 transparent;
+  }
+  
+  /* For Edge, Internet Explorer, and other browsers */
+  * {
+    scrollbar-face-color: $color-blue-6;
+    scrollbar-track-color: transparent;
+    scrollbar-width: thin;
+    scrollbar-base-color: transparent;
+    scrollbar-3dlight-color: transparent;
+    scrollbar-darkshadow-color: transparent;
+    scrollbar-highlight-color: transparent;
+    scrollbar-shadow-color: transparent;
+  }
