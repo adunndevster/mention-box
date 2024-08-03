@@ -3,11 +3,12 @@ import { HandlesService } from '../services/handles.service';
 import { Observable } from 'rxjs';
 import { Handle } from '../../models/types';
 import { CommonModule } from '@angular/common';
+import { SetPositionDirective } from '../directives/set-position.directive';
 
 @Component({
   selector: 'app-mention-box',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SetPositionDirective],
   templateUrl: './mention-box.component.html',
   styleUrl: './mention-box.component.sass'
 })

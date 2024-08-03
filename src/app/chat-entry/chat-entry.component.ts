@@ -6,7 +6,7 @@ import { SetPositionDirective } from '../directives/set-position.directive';
 @Component({
   selector: 'app-chat-entry',
   standalone: true,
-  imports: [MentionBoxComponent, CommonModule, SetPositionDirective],
+  imports: [MentionBoxComponent, CommonModule],
   templateUrl: './chat-entry.component.html',
   styleUrl: './chat-entry.component.sass',
 })

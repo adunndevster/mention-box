@@ -1,5 +1,5 @@
 <div>
     <div (input)="onInput($event)" (keyup)="onKeyUp($event)" [textContent]="chatValue()" contenteditable></div>
-    <app-mention-box *ngIf="showMentionBox" appSetPosition />
+    <app-mention-box *ngIf="showMentionBox" />
 </div>
 

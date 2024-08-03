@@ -47,15 +47,13 @@ html {
         display: flex;
         flex-direction: column;
 
-        &.self
-        {
-            align-items: end;
+        &.self {
+          align-items: end;
         }
 
-        .author
-        {
-            margin: 0 3em 0 3em;
-            font-size: smaller;
+        .author {
+          margin: 0 3em 0 3em;
+          font-size: smaller;
         }
 
         .comment {
@@ -107,30 +105,35 @@ html {
     app-chat-entry {
       background-color: $color-blue-2;
       border-radius: 0.5em;
-      padding: .5em;
+      padding: 0.5em;
       width: 96%;
-      
-      div
-      {
-        background-color: $color-blue-3;
-        padding: .3em .6em .3em .6em;
 
-        span
-        {
-            font-weight: 800;
-            color: $color-green-2;
+      div {
+        background-color: $color-blue-3;
+        padding: 0.3em 0.6em 0.3em 0.6em;
+
+        span {
+          font-weight: 800;
+          color: $color-green-2;
         }
       }
     }
 
     app-mention-box {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+
+      .box {
         display: flex;
         position: absolute;
         background-color: $color-blue-6;
         color: $color-blue-1;
         width: 200px;
         height: 300px;
-        
+      }
     }
   }
 }
