@@ -1,6 +1,6 @@
 <div (keydown)="onKeyDown($event)" appSetPosition class="box">
-    <input #searchBox [(value)]="searchValue">
-    @for(item of handles$ | async; track item.handle){
+    <input #searchBox [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)">
+    @for(item of filteredHandles(); track item.handle){
         <button [value]="item.handle" (click)="onSelect($event)">{{item.handle}}</button>
     }
 </div>

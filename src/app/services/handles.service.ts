@@ -1,23 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Handle } from '../../models/types';
+import { axiosInstance } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HandlesService {
   
-  #http = inject(HttpClient);
-  #handlesCache: Observable<Handle[]> | undefined;
+  handles:WritableSignal<Handle[]> = signal([])
 
   constructor() { }
 
-  getHandles(): Observable<Handle[]>
+  refreshHandles = async() =>
   {
-    if(this.#handlesCache) return this.#handlesCache
-
-    this.#handlesCache = this.#http.get<Handle[]>("/api/handles");
-    return this.#handlesCache;
+    try {
+      const response = await axiosInstance.get<Handle[]>('/handles');
+      if(this.handles().length === 0) this.handles.set(response.data);
+    } catch (error) {
+      console.error('Error fetching chats:', error);
+      throw error;
+    }
   }
 }
