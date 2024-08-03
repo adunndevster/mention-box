@@ -1,1 +1,6 @@
-{{ chats$ | async | json }}
+@for (comment of chats$ | async; track comment.id) {
+    <div [ngClass]="{self : comment.user.id === '1'}" class="comment">
+        <div class="initials">{{comment.user.initials}}</div>
+        <div class="text" [innerHTML]="comment.htmlText"></div>
+    </div>
+}

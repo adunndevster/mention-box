@@ -1,7 +1,7 @@
 export interface Chat
 {
     id: string,
-    userUd: string,
+    user: ChatUser,
     htmlText: string,
     timeStamp: Date,
 }

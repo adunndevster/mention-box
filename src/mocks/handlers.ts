@@ -7,7 +7,7 @@ export const handlers = [
     http.get('/api/chats', () => {
       return HttpResponse.json<Chat[]>(chats);
     }),
-  
+
     // http.post('/api/suggestions', async ({request}) => {
     //   const data = await request.json() as Suggestion;
     //   if(!data)
