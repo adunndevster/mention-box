@@ -43,6 +43,7 @@ export class ChatEntryComponent implements AfterViewInit {
 
   onKeyPress = async (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       const chat: Chat = {
         id: generateGUID(),
         user: localUser,
