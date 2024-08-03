@@ -13,3 +13,9 @@ export interface ChatUser
     handle: string;
     initials: string;
 }
+
+export interface Handle
+{
+    name?: string;
+    handle: string;
+}

@@ -18,11 +18,6 @@ export class ChatsService {
     return this.#http.get<Chat[]>("/api/chats");
   }
 
-  getChatUsers(): Observable<ChatUser[]>
-  {
-    return this.#http.get<ChatUser[]>("/api/chatusers");
-  }
-
   addChat()
   {
     throw Error();
