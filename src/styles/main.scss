@@ -108,14 +108,45 @@ html {
       padding: 0.5em;
       width: 96%;
 
-      div {
+      .entry-field {
         background-color: $color-blue-3;
-        padding: 0.3em 0.6em 0.3em 0.6em;
+        padding: 0.6em 2em 0.6em 0.6em;
 
         span {
           font-weight: 800;
           color: $color-green-2;
         }
+      }
+    }
+
+    .chat-container {
+      position: relative;
+
+      .entry-button {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        width: 30px;
+        height: 30px;
+        background-color: $color-blue-5;
+        color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: 900;
+        transition: background-color 0.3s;
+        right: 10px;
+        top: 8px;
+
+        img
+        {
+            width: 16px;
+        }
+      }
+
+      .entry-button:hover {
+        background-color: $color-green-2;
       }
     }
 

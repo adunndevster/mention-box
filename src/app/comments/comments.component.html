@@ -1,4 +1,4 @@
-@for (comment of chats$ | async; track comment.id) {
+@for (comment of chats(); track comment.id) {
 <div [class.self]="comment.user.id === '1'" class="comment-box">
   <div class="author">{{comment.user.name}}</div>
   <div [class.self]="comment.user.id === '1'" class="comment">

@@ -1,25 +1,32 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Chat, ChatUser } from '../../models/types';
-import { Observable } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import axios, { AxiosInstance } from 'axios';
+import { Chat } from '../../models/types';
+import { axiosInstance } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatsService {
 
-  #http = inject(HttpClient);
-  
+  conversation:WritableSignal<Chat[]> = signal([]);
 
-  constructor() { }
-
-  getChats(): Observable<Chat[]>
-  {
-    return this.#http.get<Chat[]>("/api/chats");
+  async refreshChats() {
+    try {
+      const response = await axiosInstance.get<Chat[]>('/chats');
+      this.conversation.set(response.data);
+    } catch (error) {
+      console.error('Error fetching chats:', error);
+      throw error;
+    }
   }
 
-  addChat()
-  {
-    throw Error();
+  async createChat(chat: Chat): Promise<Chat> {
+    try {
+      const response = await axiosInstance.post<Chat>('/chats', chat);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating chat:', error);
+      throw error;
+    }
   }
 }

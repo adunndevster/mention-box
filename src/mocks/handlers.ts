@@ -12,16 +12,15 @@ export const handlers = [
         return HttpResponse.json<Handle[]>(handles);
       }),
 
-    // http.post('/api/suggestions', async ({request}) => {
-    //   const data = await request.json() as Suggestion;
-    //   if(!data)
-    //   {
-    //       return HttpResponse.json({ success: false });
-    //   }
+    http.post('/api/chats', async ({request}) => {
+      const chat = await request.json() as Chat;
+      if(!chat)
+      {
+          return HttpResponse.json({ success: false });
+      }
   
-    //   appData.suggestions.push(data);
-    //   conversations[data.conversationId] = [];
+      chats.push(chat);
   
-    //   return HttpResponse.json({ success: true });
-    // })
+      return HttpResponse.json({ success: true });
+    })
   ];

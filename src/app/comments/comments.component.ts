@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { ChatsService } from '../services/chats.service';
 import { Observable } from 'rxjs';
 import { Chat } from '../../models/types';
@@ -14,11 +14,11 @@ import { CommonModule } from '@angular/common';
 export class CommentsComponent {
 
   #chatsService = inject(ChatsService);
-  chats$: Observable<Chat[]> | undefined;
+  chats: Signal<Chat[]> = computed(() => this.#chatsService.conversation());
 
   constructor()
   {
-    this.chats$ = this.#chatsService.getChats();
+    this.#chatsService.refreshChats();
   }
 
 }

@@ -1,5 +1,18 @@
-<div>
-    <div #entryField (input)="onInput($event)" (keyup)="onKeyUp($event)" contenteditable></div>
-    <app-mention-box *ngIf="showMentionBox" (onClose)="onMentionsClose()" (selectHandle)="onSelectHandle($event)" /> 
+<div class="chat-container">
+  <div class="entry-button">
+    <img src="arrow.svg" />
+  </div>
+  <div
+    class="entry-field"
+    #entryField
+    (input)="onInput($event)"
+    (keyup)="onKeyUp($event)"
+    (keypress)="onKeyPress($event)"
+    contenteditable
+  ></div>
+  <app-mention-box
+    *ngIf="showMentionBox"
+    (onClose)="onMentionsClose()"
+    (selectHandle)="onSelectHandle($event)"
+  />
 </div>
-

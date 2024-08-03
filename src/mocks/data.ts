@@ -1,4 +1,4 @@
-import { Chat, Handle } from '../models/types';
+import { Chat, ChatUser, Handle } from '../models/types';
 
 export const chats: Chat[] = [
   {
@@ -59,21 +59,27 @@ export const chats: Chat[] = [
   },
 ];
 
+export const handles: Handle[] = [
+  {
+    handle: 'programmerDuDe',
+  },
+  {
+    handle: 'JetSkiBoy',
+  },
+  {
+    handle: 'Decker',
+  },
+  {
+    handle: 'WhiteAndNerdy',
+  },
+  {
+    handle: 'Detroiter',
+  },
+];
 
-export const handles:Handle[] = [
-    {
-        handle: "programmerDuDe"
-    },
-    {
-        handle: "JetSkiBoy"
-    },
-    {
-        handle: "Decker"
-    },
-    {
-        handle: "WhiteAndNerdy"
-    },
-    {
-        handle: "Detroiter"
-    }
-]
+export const localUser: ChatUser = {
+  id: '1',
+  name: 'Adam Dunn',
+  handle: 'programmerDuDe',
+  initials: 'AD',
+};
