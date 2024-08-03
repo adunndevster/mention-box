@@ -107,7 +107,29 @@ html {
     app-chat-entry {
       background-color: $color-blue-2;
       border-radius: 0.5em;
-      width: 100%;
+      padding: .5em;
+      width: 96%;
+      
+      div
+      {
+        background-color: $color-blue-3;
+        padding: .3em .6em .3em .6em;
+
+        span
+        {
+            font-weight: 800;
+            color: $color-green-2;
+        }
+      }
+    }
+
+    app-mention-box {
+        display: flex;
+        position: absolute;
+        background-color: $color-blue-6;
+        color: $color-blue-1;
+        width: 200px;
+        height: 300px;
     }
   }
 }

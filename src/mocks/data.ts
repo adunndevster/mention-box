@@ -47,7 +47,7 @@ export const chats: Chat[] = [
       'OH BOY ME TOO <span>@programmerDuDe</span>! Let me break out my accordian!',
   },
   {
-    id: '4',
+    id: '5',
     user: {
       id: '2',
       name: 'Tim Robinson',

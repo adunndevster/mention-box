@@ -1,1 +1,5 @@
-<span>chat-entry works!</span>
+<div>
+    <div (input)="onInput($event)" (keyup)="onKeyUp($event)" [textContent]="chatValue()" contenteditable></div>
+    <app-mention-box *ngIf="showMentionBox" appSetPosition />
+</div>
+
