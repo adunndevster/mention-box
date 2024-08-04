@@ -66,12 +66,23 @@ export class ChatEntryComponent implements AfterViewInit {
   }
 
   onKeyUp(event: KeyboardEvent) {
+    console.log(event.key);
+    
+    const isCharacterKey = event.key.match(/(\w|\s)/g) &&
+      !event.key.includes("Arrow");
+
     if (event.key === '@') {
       this.showMentionBox = true;
       const selection = window.getSelection();
       if (selection && selection.rangeCount > 0) {
         this.savedRange = selection.getRangeAt(0).cloneRange();
       }
+    } else if (
+      event.key === 'Backspace' ||
+      event.key === 'Delete' ||
+      isCharacterKey
+    ) {
+      this.handleSpanDeletion(event);
     }
     this.updateCursorPosition();
   }
@@ -82,6 +93,62 @@ export class ChatEntryComponent implements AfterViewInit {
       const range = selection.getRangeAt(0);
       this.currentCursorPos = range.startOffset;
     }
+  }
+
+  private handleSpanDeletion(event: KeyboardEvent) {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    const startContainer = range.startContainer;
+    const startOffset = range.startOffset;
+
+    let spanElement: HTMLSpanElement | null = null;
+
+    // Check if we're at the right edge of a span
+    if (
+      startContainer.nodeType === Node.TEXT_NODE &&
+      startContainer.parentElement?.tagName === 'SPAN'
+    ) {
+      spanElement = startContainer.parentElement;
+      if (
+        startOffset === (startContainer as Text).length &&
+        event.key === 'Delete'
+      ) {
+        this.unwrapSpan(spanElement);
+        event.preventDefault();
+        return;
+      }
+    }
+
+    // Check if we're inside or at the left edge of a span
+    if (
+      startContainer.nodeType === Node.ELEMENT_NODE &&
+      (startContainer as HTMLElement).tagName === 'SPAN'
+    ) {
+      spanElement = startContainer as HTMLSpanElement;
+      if (startOffset === 0 && event.key === 'Backspace') {
+        this.unwrapSpan(spanElement);
+        // event.preventDefault();
+        return;
+      }
+    }
+
+    // If we're inside a span, unwrap it
+    if (spanElement) {
+      this.unwrapSpan(spanElement);
+      event.preventDefault();
+    }
+  }
+
+  private unwrapSpan(span: HTMLSpanElement) {
+    const parent = span.parentNode;
+    if (!parent) return;
+
+    while (span.firstChild) {
+      parent.insertBefore(span.firstChild, span);
+    }
+    parent.removeChild(span);
   }
 
   onEntryClick = async () => {
